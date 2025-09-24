@@ -86,3 +86,4 @@ secrets/
 # Deployment
 deployments/
 deployment-addresses.json
+.vercel

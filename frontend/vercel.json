@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/.well-known/(.*)",
-      "destination": "/frontend/public/.well-known/$1"
+      "destination": "/public/.well-known/$1"
     }
   ]
 }
