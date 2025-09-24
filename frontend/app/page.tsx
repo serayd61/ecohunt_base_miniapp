@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
+import { sdk } from '@farcaster/miniapp-sdk';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
 
@@ -10,6 +11,28 @@ export default function EcoHuntApp() {
   const [preview, setPreview] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [userAddress] = useState('0x1234567890123456789012345678901234567890'); // Mock address
+
+  // Initialize Farcaster SDK
+  useEffect(() => {
+    const initializeFarcasterSDK = async () => {
+      try {
+        console.log('🚀 Initializing EcoHunt Farcaster SDK...');
+        
+        // Call ready() to signal app is loaded
+        await sdk.actions.ready();
+        console.log('✅ Farcaster SDK ready - EcoHunt Mini App initialized');
+        
+        // Show success message to user
+        toast.success('🌱 EcoHunt Mini App loaded successfully!');
+        
+      } catch (error) {
+        console.error('❌ Farcaster SDK initialization error:', error);
+        // Still continue with app functionality even if SDK fails
+      }
+    };
+
+    initializeFarcasterSDK();
+  }, []);
 
   const handleFileSelect = (file: File) => {
     setSelectedFile(file);

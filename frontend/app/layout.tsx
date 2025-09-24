@@ -11,6 +11,34 @@ export const metadata: Metadata = {
   keywords: ['environment', 'conservation', 'blockchain', 'tokens', 'sustainability'],
   authors: [{ name: 'EcoHunt Team' }],
   viewport: 'width=device-width, initial-scale=1',
+  openGraph: {
+    title: 'EcoHunt - Earn GREEN Tokens',
+    description: 'Turn your eco-friendly actions into GREEN tokens with AI verification',
+    images: ['https://ecohunt-base-miniapp.vercel.app/og-image.png'],
+    url: 'https://ecohunt-base-miniapp.vercel.app',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'EcoHunt - Earn GREEN Tokens',
+    description: 'Turn your eco-friendly actions into GREEN tokens with AI verification',
+    images: ['https://ecohunt-base-miniapp.vercel.app/og-image.png'],
+  },
+  other: {
+    "fc:miniapp": JSON.stringify({
+      version: "1",
+      imageUrl: "https://ecohunt-base-miniapp.vercel.app/preview.png",
+      button: {
+        title: "🌱 Start EcoHunt",
+        action: {
+          type: "launch_frame",
+          url: "https://ecohunt-base-miniapp.vercel.app",
+          name: "EcoHunt",
+          splashImageUrl: "https://ecohunt-base-miniapp.vercel.app/splash.png",
+          splashBackgroundColor: "#10b981"
+        }
+      }
+    })
+  }
 }
 
 export default function RootLayout({
