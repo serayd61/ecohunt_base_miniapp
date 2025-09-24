@@ -3,22 +3,22 @@
   "name": "EcoHunt",
   "subtitle": "Earn $GREEN tokens for eco-friendly actions",
   "description": "AI-powered environmental conservation platform where users earn GREEN tokens by completing eco-friendly activities verified through AI photo analysis on Base Network.",
-  "homeUrl": "https://ecohunt-base-miniapp.vercel.app",
-  "iconUrl": "https://ecohunt-base-miniapp.vercel.app/icon.png",
-  "imageUrl": "https://ecohunt-base-miniapp.vercel.app/preview.png",
-  "heroImageUrl": "https://ecohunt-base-miniapp.vercel.app/hero.png",
-  "splashImageUrl": "https://ecohunt-base-miniapp.vercel.app/splash.png",
+  "homeUrl": "https://frontend-2kl6c2f7j-serkans-projects-9991a7f3.vercel.app",
+  "iconUrl": "https://frontend-2kl6c2f7j-serkans-projects-9991a7f3.vercel.app/icon.png",
+  "imageUrl": "https://frontend-2kl6c2f7j-serkans-projects-9991a7f3.vercel.app/preview.png",
+  "heroImageUrl": "https://frontend-2kl6c2f7j-serkans-projects-9991a7f3.vercel.app/hero.png",
+  "splashImageUrl": "https://frontend-2kl6c2f7j-serkans-projects-9991a7f3.vercel.app/splash.png",
   "splashBackgroundColor": "#10b981",
   "primaryCategory": "defi",
   "screenshotUrls": [
-    "https://ecohunt-base-miniapp.vercel.app/screenshot1.png",
-    "https://ecohunt-base-miniapp.vercel.app/screenshot2.png"
+    "https://frontend-2kl6c2f7j-serkans-projects-9991a7f3.vercel.app/screenshot1.png",
+    "https://frontend-2kl6c2f7j-serkans-projects-9991a7f3.vercel.app/screenshot2.png"
   ],
   "tags": ["sustainability", "ai", "rewards", "environment", "base", "green", "climate", "web3"],
   "tagline": "Turn eco-actions into GREEN tokens with AI verification",
   "buttonTitle": "🌱 Start EcoHunt",
   "ogTitle": "EcoHunt - Earn GREEN tokens for saving the planet",
   "ogDescription": "Complete eco-friendly challenges, get AI verification, and earn GREEN tokens on Base network!",
-  "ogImageUrl": "https://ecohunt-base-miniapp.vercel.app/og-image.png",
-  "castShareUrl": "https://ecohunt-base-miniapp.vercel.app/share"
+  "ogImageUrl": "https://frontend-2kl6c2f7j-serkans-projects-9991a7f3.vercel.app/og-image.png",
+  "castShareUrl": "https://frontend-2kl6c2f7j-serkans-projects-9991a7f3.vercel.app/share"
 }
