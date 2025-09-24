@@ -1,0 +1,9 @@
+backend/
+ai-verification/
+deployment/
+tests/
+contracts/
+node_modules/
+*.log
+.env*
+!.env.example
