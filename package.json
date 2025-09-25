@@ -1,66 +1,36 @@
 {
   "name": "ecohunt-production",
   "version": "1.0.0",
-  "description": "AI-powered environmental conservation platform with blockchain rewards",
-  "main": "backend/server.js",
+  "description": "EcoHunt - Environmental challenge platform on Base network",
+  "private": true,
   "scripts": {
-    "dev": "cd frontend && npm run dev",
-    "build": "echo 'Build completed - Frontend deployed via Vercel'",
-    "install": "cd frontend && npm install",
-    "build:frontend": "cd frontend && npm install && npm run build",
-    "test": "npm run test:contracts && npm run test:backend && npm run test:ai",
-    "test:contracts": "cd deployment && npx hardhat test",
-    "test:backend": "cd backend && npm test",
-    "test:ai": "cd ai-verification && npm test",
-    "deploy:testnet": "cd deployment && npx hardhat run scripts/deploy.js --network baseTestnet",
-    "deploy:mainnet": "cd deployment && npx hardhat run scripts/deploy.js --network base",
-    "verify:testnet": "cd deployment && npx hardhat verify --network baseTestnet",
-    "verify:mainnet": "cd deployment && npx hardhat verify --network base",
-    "start": "npm run start:backend",
-    "start:backend": "cd backend && npm start",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
-    "format": "prettier --write .",
-    "setup": "npm run install:all && npm run setup:env",
-    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install && cd ../deployment && npm install && cd ../ai-verification && npm install",
-    "setup:env": "cp .env.example .env && echo 'Please configure your .env file with proper values'",
-    "clean": "rm -rf node_modules backend/node_modules frontend/node_modules deployment/node_modules ai-verification/node_modules",
-    "health-check": "node scripts/health-check.js",
-    "migrate": "cd deployment && npx hardhat run scripts/migrate.js",
-    "monitor": "node scripts/monitor.js"
-  },
-  "keywords": [
-    "blockchain",
-    "environment",
-    "AI",
-    "conservation",
-    "Base",
-    "ethereum",
-    "sustainability",
-    "tokens"
-  ],
-  "author": "EcoHunt Team",
-  "license": "MIT",
-  "dependencies": {
-    "concurrently": "^7.6.0",
-    "dotenv": "^16.3.1"
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "build": "npm run build:frontend && npm run build:backend",
+    "deploy:contracts": "cd contracts && npx hardhat run scripts/deploy.js --network base",
+    "test": "npm run test:contracts && npm run test:backend",
+    "test:contracts": "cd contracts && npx hardhat test",
+    "test:backend": "cd backend && npm test"
   },
   "devDependencies": {
-    "eslint": "^8.45.0",
-    "eslint-config-next": "^13.4.0",
-    "prettier": "^3.0.0",
-    "nodemon": "^3.0.1"
-  },
-  "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=9.0.0"
+    "concurrently": "^8.2.2"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/ecohunt-production.git"
+    "url": "git+https://github.com/serayd61/ecohunt_base_miniapp.git"
   },
-  "bugs": {
-    "url": "https://github.com/yourusername/ecohunt-production/issues"
-  },
-  "homepage": "https://ecohunt.app"
+  "keywords": [
+    "blockchain",
+    "base",
+    "environmental",
+    "web3",
+    "nextjs",
+    "ai"
+  ],
+  "author": "serayd61",
+  "license": "MIT"
 }
