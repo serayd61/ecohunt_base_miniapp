@@ -1,0 +1,11 @@
+{
+  "name": "EcoHunt",
+  "iconUrl": "https://ecohunt-base-miniapp.vercel.app/icon.png",
+  "homeUrl": "https://ecohunt-base-miniapp.vercel.app",
+  "splashImageUrl": "https://ecohunt-base-miniapp.vercel.app/splash.png",
+  "splashBackgroundColor": "#10b981",
+  "primaryCategory": "social",
+  "tags": ["eco", "green", "nature", "rewards", "base"],
+  "description": "Rewarding environmental conservation with GREEN tokens",
+  "version": "1.0.0"
+}
