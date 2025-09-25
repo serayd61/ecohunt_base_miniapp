@@ -5,12 +5,16 @@ import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1
+}
+
 export const metadata: Metadata = {
   title: 'EcoHunt - Earn GREEN Tokens',
   description: 'Join the environmental revolution! Complete eco-friendly challenges and earn GREEN tokens on Base network.',
   keywords: ['environment', 'conservation', 'blockchain', 'tokens', 'sustainability'],
   authors: [{ name: 'EcoHunt Team' }],
-  viewport: 'width=device-width, initial-scale=1',
   openGraph: {
     title: 'EcoHunt - Earn GREEN Tokens',
     description: 'Turn your eco-friendly actions into GREEN tokens with AI verification',
