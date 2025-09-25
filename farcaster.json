@@ -4,12 +4,8 @@
   "homeUrl": "https://ecohunt-base-miniapp.vercel.app",
   "splashImageUrl": "https://ecohunt-base-miniapp.vercel.app/splash.png",
   "splashBackgroundColor": "#10B981",
-  "primaryCategory": "environmental",
-  "tags": ["eco", "green", "environmental", "base", "conservation", "rewards"],
-  "description": "🌱 Rewarding environmental conservation with GREEN tokens on Base network",
-  "version": "1.0.0",
-  "developer": {
-    "name": "EcoHunt Team",
-    "url": "https://github.com/serayd61"
-  }
+  "primaryCategory": "social",
+  "tags": ["eco", "green", "nature", "rewards", "base"],
+  "description": "Rewarding environmental conservation with GREEN tokens",
+  "version": "1.0.0"
 }
