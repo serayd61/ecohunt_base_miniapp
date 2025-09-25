@@ -1,8 +1,12 @@
 {
+  "buildCommand": "cd frontend && npm run build",
+  "outputDirectory": "frontend/.next",
+  "installCommand": "cd frontend && npm install",
+  "rootDirectory": "frontend",
   "rewrites": [
     {
       "source": "/.well-known/(.*)",
-      "destination": "/frontend/public/.well-known/$1"
+      "destination": "/public/.well-known/$1"
     }
   ]
 }
