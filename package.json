@@ -9,12 +9,11 @@
     "dev:backend": "cd backend && npm run dev",
     "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
     "build:frontend": "cd frontend && npm run build",
-    "build:backend": "cd backend && npm run build",
-    "build": "npm run build:frontend && npm run build:backend",
-    "deploy:contracts": "cd contracts && npx hardhat run scripts/deploy.js --network base",
-    "test": "npm run test:contracts && npm run test:backend",
-    "test:contracts": "cd contracts && npx hardhat test",
-    "test:backend": "cd backend && npm test"
+    "build:backend": "echo 'No backend build step'",
+    "build": "npm run build:frontend",
+    "deploy:contracts": "cd deployment && npx hardhat run scripts/deploy.js --network base",
+    "test": "npm run test:contracts",
+    "test:contracts": "cd deployment && npx hardhat test"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

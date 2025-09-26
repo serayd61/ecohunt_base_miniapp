@@ -66,8 +66,13 @@ class EcoHuntBackend {
                     return res.status(400).json({ error: 'Invalid user address' });
                 }
 
-                // Upload to IPFS via Pinata
-                const ipfsResult = await this.pinata.pinFileToIPFS(photoFile.buffer, {
+                // Upload to IPFS via Pinata (use readable stream)
+                const { Readable } = require('stream');
+                const stream = Readable.from(photoFile.buffer);
+                // append filename so pinata can infer type
+                stream.path = photoFile.originalname || `photo-${Date.now()}.jpg`;
+
+                const ipfsResult = await this.pinata.pinFileToIPFS(stream, {
                     pinataMetadata: {
                         name: `ecohunt-photo-${Date.now()}`,
                         keyvalues: {

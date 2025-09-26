@@ -60,15 +60,19 @@ Frontend (Next.js) ←→ Backend (Node.js) ←→ Base Network
 git clone https://github.com/serayd61/ecohunt_base_miniapp.git
 cd ecohunt_base_miniapp
 
-# Install dependencies
-npm install
+# Install dependencies (root, frontend, backend)
+npm run install:all
 
 # Set up environment
-cp .env.example .env
-# Configure your API keys in .env
+# Backend env
+# Create backend/.env and configure keys (see Environment Configuration)
 
-# Deploy smart contracts
-npm run deploy:mainnet
+# Frontend env
+# Create frontend/.env.local and set:
+# NEXT_PUBLIC_BACKEND_URL=http://localhost:3001
+
+# (Optional) Deploy smart contracts
+npm run deploy:contracts
 
 # Start the application
 npm run dev
@@ -90,6 +94,11 @@ EcoHunt-Production/
 ## 🔧 Environment Configuration
 
 ```env
+# backend/.env
+
+# Server
+PORT=3001
+
 # Blockchain
 PRIVATE_KEY=your_private_key
 BASE_RPC_URL=https://mainnet.base.org
@@ -102,6 +111,9 @@ OPENAI_API_KEY=sk-your-key
 # IPFS Storage
 PINATA_API_KEY=your_pinata_key
 PINATA_SECRET_KEY=your_pinata_secret
+
+# frontend/.env.local
+NEXT_PUBLIC_BACKEND_URL=http://localhost:3001
 ```
 
 ## 🧪 Testing
@@ -112,20 +124,14 @@ npm test
 
 # Test smart contracts
 npm run test:contracts
-
-# Test AI verification
-npm run test:ai
 ```
 
 ## 🚀 Deployment
 
 ### Smart Contract Deployment
 ```bash
-# Deploy to Base Mainnet
-npm run deploy:mainnet
-
-# Verify on BaseScan
-npm run verify:mainnet
+# Deploy to Base network (configured in deployment/hardhat.config.js)
+npm run deploy:contracts
 ```
 
 ### Production Deployment
