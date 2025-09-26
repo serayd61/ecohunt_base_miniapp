@@ -7,5 +7,10 @@
   "primaryCategory": "social",
   "tags": ["eco", "green", "nature", "rewards", "base"],
   "description": "Rewarding environmental conservation with GREEN tokens",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "baseBuilder": {
+    "allowedAddresses": [
+      "0x5c0834e86c197b10d583940ec6366efaa2e93b1e"
+    ]
+  }
 }

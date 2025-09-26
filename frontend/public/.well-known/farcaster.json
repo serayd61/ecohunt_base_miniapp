@@ -21,6 +21,11 @@
   "ogDescription": "Complete eco-friendly challenges, get AI verification, and earn GREEN tokens on Base network!",
   "ogImageUrl": "https://frontend-2kl6c2f7j-serkans-projects-9991a7f3.vercel.app/og-image.png",
   "castShareUrl": "https://frontend-2kl6c2f7j-serkans-projects-9991a7f3.vercel.app/share",
+  "baseBuilder": {
+    "allowedAddresses": [
+      "0x5c0834e86c197b10d583940ec6366efaa2e93b1e"
+    ]
+  },
   "accountAssociation": {
     "header": "eyJmaWQiOjIwODY0NiwidHlwZSI6bnVsbCwia2V5IjoiMHg1YzA4MzRFODZjMTk3YjEwZDU4Mzk0MEVDNjM2NkVGYUEyZTkzQjFlIn0",
     "payload": "eyJkb21haW4iOiJlY29odW50LWJhc2UtbWluaWFwcC52ZXJjZWwuYXBwIn0",
