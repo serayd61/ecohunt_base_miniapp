@@ -10,7 +10,7 @@
   "version": "1.0.0",
   "baseBuilder": {
     "allowedAddresses": [
-      "0x5c0834e86c197b10d583940ec6366efaa2e93b1e"
+      "0x5c0834E86c197b10d583940EC6366EFaA2e93B1e"
     ]
   }
 }
