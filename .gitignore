@@ -12,6 +12,11 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+# Allow committing example env files
+!.env.example
+!backend/.env.example
+!frontend/.env.example
+
 # Build outputs
 dist/
 build/
