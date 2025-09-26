@@ -17,14 +17,14 @@ async function main() {
     throw new Error('Insufficient ETH balance for deployment. Need at least 0.01 ETH');
   }
 
-  // Deploy GreenToken
-  console.log('\n📝 Deploying GreenToken contract...');
-  const GreenToken = await hre.ethers.getContractFactory('GreenToken');
+  // Deploy GreenTokenV2
+  console.log('\n📝 Deploying GreenTokenV2 contract...');
+  const GreenToken = await hre.ethers.getContractFactory('GreenTokenV2');
 
   const greenToken = await GreenToken.deploy();
   await greenToken.deployed();
 
-  console.log('✅ GreenToken deployed to:', greenToken.address);
+  console.log('✅ GreenTokenV2 deployed to:', greenToken.address);
   console.log('📄 Transaction hash:', greenToken.deployTransaction.hash);
 
   // Wait for confirmations
