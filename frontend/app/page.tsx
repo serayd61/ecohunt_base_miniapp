@@ -84,12 +84,13 @@ export default function Home() {
     setError(null);
 
     const formData = new FormData();
-    formData.append('image', selectedFile);
-    formData.append('walletAddress', walletAddress);
+    formData.append('photo', selectedFile);
+    formData.append('userAddress', walletAddress);
 
     try {
-      // API endpoint'i environment variable'dan al
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || '/api/verify';
+      // API endpoint'i environment variable'dan al (Express backend)
+      const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+      const apiUrl = baseUrl ? `${baseUrl}/api/submit-photo` : '/api/verify';
       
       const response = await fetch(apiUrl, {
         method: 'POST',
