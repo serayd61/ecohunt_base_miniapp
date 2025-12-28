@@ -10,8 +10,8 @@ const manifest = {
     "splashImageUrl": "https://ecohunt-base-miniapp.vercel.app/splash.png",
     "splashBackgroundColor": "#10B981",
     "webhookUrl": "https://ecohunt-base-miniapp.vercel.app/api/webhook",
-    "subtitle": "Eco-friendly quests on Base",
-    "description": "Complete eco quests, earn GreenTokens, track your impact. Join the green revolution on Base blockchain!",
+    "subtitle": "Green quests on Base",
+    "description": "Complete eco quests and earn GreenTokens. Track your environmental impact on Base blockchain.",
     "primaryCategory": "social",
     "screenshotUrls": [
       "https://ecohunt-base-miniapp.vercel.app/preview.png"
@@ -26,11 +26,12 @@ const manifest = {
 };
 
 export async function GET() {
-  return NextResponse.json(manifest, {
+  return new NextResponse(JSON.stringify(manifest), {
+    status: 200,
     headers: {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
-      'Cache-Control': 'no-cache, no-store, must-revalidate'
+      'Cache-Control': 'no-store, max-age=0'
     }
   });
 }
