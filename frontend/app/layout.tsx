@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
 import { OnchainProviders } from '../src/providers/OnchainProviders'
+import { FarcasterProvider } from '../src/providers/FarcasterProvider'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -58,19 +59,21 @@ export default function RootLayout({
         <meta name="base:app_id" content="695163f04d3a403912ed83e7" />
       </head>
       <body className={inter.className}>
-        <OnchainProviders>
-          {children}
-          <Toaster
-            position="top-center"
-            toastOptions={{
-              duration: 4000,
-              style: {
-                background: '#10b981',
-                color: '#fff',
-              },
-            }}
-          />
-        </OnchainProviders>
+        <FarcasterProvider>
+          <OnchainProviders>
+            {children}
+            <Toaster
+              position="top-center"
+              toastOptions={{
+                duration: 4000,
+                style: {
+                  background: '#10b981',
+                  color: '#fff',
+                },
+              }}
+            />
+          </OnchainProviders>
+        </FarcasterProvider>
       </body>
     </html>
   )

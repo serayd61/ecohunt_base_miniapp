@@ -1,9 +1,12 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Upload, Leaf, Award, Shield, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { Upload, Leaf, Award, Shield, CheckCircle, AlertCircle, Loader2, User } from 'lucide-react';
+import { useFarcaster } from '../src/providers/FarcasterProvider';
+import sdk from '@farcaster/frame-sdk';
 
 export default function Home() {
+  const { context, isSDKLoaded, isInFrame, user } = useFarcaster();
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -12,8 +15,39 @@ export default function Home() {
   const [walletConnected, setWalletConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState('');
 
+  // Farcaster kullanıcısı varsa otomatik bağlan
+  useEffect(() => {
+    if (isInFrame && user.fid) {
+      setWalletConnected(true);
+      // Farcaster'da FID kullan
+      setWalletAddress(`fid:${user.fid}`);
+    }
+  }, [isInFrame, user.fid]);
+
   // Wallet bağlantısı
   const connectWallet = async () => {
+    // Farcaster içindeyse, SDK ile wallet bağlantısı yap
+    if (isInFrame) {
+      try {
+        const result = await sdk.actions.signIn({
+          nonce: Date.now().toString(),
+        });
+        if (result) {
+          setWalletConnected(true);
+          setWalletAddress(user.username || `fid:${user.fid}`);
+        }
+      } catch (err) {
+        console.error('Farcaster sign in error:', err);
+        // Zaten giriş yapılmış olabilir
+        if (user.fid) {
+          setWalletConnected(true);
+          setWalletAddress(user.username || `fid:${user.fid}`);
+        }
+      }
+      return;
+    }
+
+    // Normal web wallet
     if (typeof window.ethereum !== 'undefined') {
       try {
         const accounts = await window.ethereum.request({ 
@@ -26,7 +60,7 @@ export default function Home() {
         setError('Failed to connect wallet. Please try again.');
       }
     } else {
-      setError('Please install MetaMask or another Web3 wallet to continue.');
+      setError('Please install a Web3 wallet to continue.');
     }
   };
 
@@ -129,20 +163,46 @@ export default function Home() {
             <div className="flex items-center space-x-3">
               <Leaf className="h-8 w-8 text-green-600" />
               <span className="text-2xl font-bold text-gray-900">EcoHunt</span>
+              {isInFrame && (
+                <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
+                  Farcaster
+                </span>
+              )}
             </div>
             
-            <button
-              onClick={connectWallet}
-              className={`px-6 py-2 rounded-full font-medium transition-all ${
-                walletConnected 
-                  ? 'bg-green-100 text-green-700 border-2 border-green-300' 
-                  : 'bg-green-600 text-white hover:bg-green-700 shadow-lg hover:shadow-xl'
-              }`}
-            >
-              {walletConnected 
-                ? `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}` 
-                : 'Connect Wallet'}
-            </button>
+            {/* Farcaster User Info */}
+            {isInFrame && user.fid ? (
+              <div className="flex items-center space-x-3">
+                {user.pfpUrl ? (
+                  <img 
+                    src={user.pfpUrl} 
+                    alt={user.displayName || 'User'} 
+                    className="w-8 h-8 rounded-full border-2 border-green-400"
+                  />
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                    <User className="h-4 w-4 text-green-600" />
+                  </div>
+                )}
+                <div className="text-sm">
+                  <p className="font-medium text-gray-900">{user.displayName || user.username}</p>
+                  <p className="text-gray-500 text-xs">@{user.username}</p>
+                </div>
+              </div>
+            ) : (
+              <button
+                onClick={connectWallet}
+                className={`px-6 py-2 rounded-full font-medium transition-all ${
+                  walletConnected 
+                    ? 'bg-green-100 text-green-700 border-2 border-green-300' 
+                    : 'bg-green-600 text-white hover:bg-green-700 shadow-lg hover:shadow-xl'
+                }`}
+              >
+                {walletConnected 
+                  ? `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}` 
+                  : 'Connect Wallet'}
+              </button>
+            )}
           </div>
         </div>
       </header>
@@ -291,10 +351,18 @@ export default function Home() {
             </button>
           )}
 
-          {!walletConnected && selectedFile && (
+          {!walletConnected && !isInFrame && selectedFile && (
             <p className="text-center text-amber-600 mt-4 text-sm">
               ⚠️ Please connect your wallet to submit photos
             </p>
+          )}
+
+          {/* Loading state for SDK */}
+          {!isSDKLoaded && isInFrame && (
+            <div className="text-center py-4">
+              <Loader2 className="animate-spin h-6 w-6 text-green-600 mx-auto" />
+              <p className="text-sm text-gray-500 mt-2">Loading Farcaster...</p>
+            </div>
           )}
         </div>
 
