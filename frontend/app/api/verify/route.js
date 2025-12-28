@@ -62,12 +62,17 @@ export async function POST(request) {
       );
     }
 
+    // Wallet address veya Farcaster FID kabul et
     if (!walletAddress) {
       return NextResponse.json(
-        { success: false, message: 'Wallet address required' },
+        { success: false, message: 'Wallet address or Farcaster ID required' },
         { status: 400 }
       );
     }
+
+    // Farcaster FID'i kontrol et
+    const isFarcasterUser = walletAddress.toString().startsWith('fid:');
+    console.log(`User: ${walletAddress}, Farcaster: ${isFarcasterUser}`);
 
     // Dosya boyutu kontrolü (10MB limit)
     if (image.size > 10 * 1024 * 1024) {

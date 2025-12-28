@@ -118,8 +118,8 @@ export default function Home() {
     setError(null);
 
     const formData = new FormData();
-    formData.append('photo', selectedFile);
-    formData.append('userAddress', walletAddress);
+    formData.append('image', selectedFile);
+    formData.append('walletAddress', walletAddress);
 
     try {
       // API endpoint'i environment variable'dan al (Express backend)
