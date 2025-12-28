@@ -1,32 +1,17 @@
 import { NextResponse } from 'next/server';
-import { createPublicClient, createWalletClient, http, parseUnits } from 'viem';
-import { base } from 'viem/chains';
-import { privateKeyToAccount } from 'viem/accounts';
+import { ethers } from 'ethers';
 
 // GreenTokenV2 ABI (minimal)
 const GREEN_TOKEN_ABI = [
-  {
-    inputs: [
-      { name: 'user', type: 'address' },
-      { name: 'aiScore', type: 'uint8' },
-      { name: 'rewardAmount', type: 'uint256' }
-    ],
-    name: 'verifyAndReward',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function'
-  },
-  {
-    inputs: [{ name: 'account', type: 'address' }],
-    name: 'balanceOf',
-    outputs: [{ name: '', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function'
-  }
+  "function verifyAndReward(address user, uint8 aiScore, uint256 rewardAmount) external",
+  "function balanceOf(address account) view returns (uint256)"
 ];
 
 // Contract address (Base Mainnet)
 const GREEN_TOKEN_ADDRESS = process.env.GREEN_TOKEN_ADDRESS || '0x769Faa55AAfab4FBef229B398F2B09aa38F5730c';
+
+// Base Mainnet RPC
+const BASE_RPC_URL = 'https://mainnet.base.org';
 
 // OpenAI API for image analysis
 async function analyzeImageWithAI(imageBase64) {
@@ -134,7 +119,7 @@ function mockAnalysis() {
 
 // Calculate token reward based on AI score
 function calculateTokenReward(aiScore) {
-  if (aiScore >= 90) return 100; // 100 GREEN tokens
+  if (aiScore >= 90) return 100;
   if (aiScore >= 80) return 75;
   if (aiScore >= 70) return 50;
   if (aiScore >= 60) return 30;
@@ -142,7 +127,7 @@ function calculateTokenReward(aiScore) {
   return 0;
 }
 
-// Mint tokens on blockchain
+// Mint tokens on blockchain using ethers.js
 async function mintTokens(userAddress, aiScore, rewardAmount) {
   const privateKey = process.env.VERIFIER_PRIVATE_KEY;
   
@@ -156,37 +141,29 @@ async function mintTokens(userAddress, aiScore, rewardAmount) {
   }
 
   try {
-    // Create wallet client
-    const account = privateKeyToAccount(privateKey);
+    // Create provider and wallet
+    const provider = new ethers.JsonRpcProvider(BASE_RPC_URL);
+    const wallet = new ethers.Wallet(privateKey, provider);
     
-    const walletClient = createWalletClient({
-      account,
-      chain: base,
-      transport: http()
-    });
-
-    const publicClient = createPublicClient({
-      chain: base,
-      transport: http()
-    });
-
+    // Create contract instance
+    const contract = new ethers.Contract(GREEN_TOKEN_ADDRESS, GREEN_TOKEN_ABI, wallet);
+    
     // Convert reward amount to wei (18 decimals)
-    const rewardInWei = parseUnits(rewardAmount.toString(), 18);
-
+    const rewardInWei = ethers.parseUnits(rewardAmount.toString(), 18);
+    
+    console.log(`Minting ${rewardAmount} GREEN to ${userAddress} with score ${aiScore}`);
+    
     // Send transaction
-    const hash = await walletClient.writeContract({
-      address: GREEN_TOKEN_ADDRESS,
-      abi: GREEN_TOKEN_ABI,
-      functionName: 'verifyAndReward',
-      args: [userAddress, aiScore, rewardInWei]
-    });
-
+    const tx = await contract.verifyAndReward(userAddress, aiScore, rewardInWei);
+    console.log('Transaction sent:', tx.hash);
+    
     // Wait for confirmation
-    const receipt = await publicClient.waitForTransactionReceipt({ hash });
+    const receipt = await tx.wait();
+    console.log('Transaction confirmed in block:', receipt.blockNumber);
 
     return {
-      success: receipt.status === 'success',
-      transactionHash: hash,
+      success: true,
+      transactionHash: tx.hash,
       blockNumber: receipt.blockNumber.toString()
     };
   } catch (error) {
@@ -201,7 +178,7 @@ async function mintTokens(userAddress, aiScore, rewardAmount) {
 // Validate Ethereum address
 function isValidAddress(address) {
   if (!address) return false;
-  if (address.startsWith('fid:')) return false; // Farcaster ID, not real address
+  if (address.startsWith('fid:')) return false;
   return /^0x[a-fA-F0-9]{40}$/.test(address);
 }
 
