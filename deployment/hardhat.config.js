@@ -16,6 +16,11 @@ module.exports = {
       },
     },
   },
+  paths: {
+    sources: './contracts',
+    cache: './cache',
+    artifacts: './artifacts',
+  },
   networks: {
     hardhat: {
       forking: {

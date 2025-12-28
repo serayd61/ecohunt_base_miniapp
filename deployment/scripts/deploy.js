@@ -1,6 +1,4 @@
 const hre = require('hardhat');
-const fs = require('fs');
-const path = require('path');
 
 async function main() {
   console.log('🌱 Starting EcoHunt GreenToken deployment to Base network...');
@@ -9,12 +7,12 @@ async function main() {
   const [deployer] = await hre.ethers.getSigners();
   console.log('Deploying with account:', deployer.address);
 
-  // Check balance
-  const balance = await deployer.getBalance();
-  console.log('Account balance:', hre.ethers.utils.formatEther(balance), 'ETH');
+  // Check balance (ethers v6 compatible)
+  const balance = await hre.ethers.provider.getBalance(deployer.address);
+  console.log('Account balance:', hre.ethers.formatEther(balance), 'ETH');
 
-  if (balance.lt(hre.ethers.utils.parseEther('0.01'))) {
-    throw new Error('Insufficient ETH balance for deployment. Need at least 0.01 ETH');
+  if (balance < hre.ethers.parseEther('0.0005')) {
+    throw new Error('Insufficient ETH balance for deployment. Need at least 0.0005 ETH');
   }
 
   // Deploy GreenTokenV2
@@ -22,45 +20,42 @@ async function main() {
   const GreenToken = await hre.ethers.getContractFactory('GreenTokenV2');
 
   const greenToken = await GreenToken.deploy();
-  await greenToken.deployed();
+  await greenToken.waitForDeployment();
 
-  console.log('✅ GreenTokenV2 deployed to:', greenToken.address);
-  console.log('📄 Transaction hash:', greenToken.deployTransaction.hash);
+  const contractAddress = await greenToken.getAddress();
+  console.log('✅ GreenTokenV2 deployed to:', contractAddress);
+
+  // Get deployment transaction
+  const deployTx = greenToken.deploymentTransaction();
+  console.log('📄 Transaction hash:', deployTx.hash);
 
   // Wait for confirmations
   console.log('⏳ Waiting for block confirmations...');
-  await greenToken.deployTransaction.wait(5);
+  await deployTx.wait(5);
 
   // Verify contract
   console.log('\n🔍 Verifying contract on BaseScan...');
   try {
     await hre.run('verify:verify', {
-      address: greenToken.address,
+      address: contractAddress,
       constructorArguments: [],
     });
     console.log('✅ Contract verified on BaseScan');
   } catch (error) {
-    console.log('⚠️ Contract verification failed:', error.message);
+    if (error.message.includes('Already Verified')) {
+      console.log('✅ Contract already verified');
+    } else {
+      console.log('⚠️ Contract verification failed:', error.message);
+    }
   }
 
-  // Save deployment info
-  const deploymentInfo = {
-    network: hre.network.name,
-    contractAddress: greenToken.address,
-    deployer: deployer.address,
-    transactionHash: greenToken.deployTransaction.hash,
-    timestamp: new Date().toISOString(),
-  };
-
-  const deploymentPath = path.join(__dirname, '..', 'deployments.json');
-  fs.writeFileSync(deploymentPath, JSON.stringify(deploymentInfo, null, 2));
-
   console.log('\n🎉 Deployment completed successfully!');
-  console.log(`📝 Contract Address: ${greenToken.address}`);
+  console.log(`📝 Contract Address: ${contractAddress}`);
+  console.log(`🔗 BaseScan: https://basescan.org/address/${contractAddress}`);
   console.log('\nAdd this to your .env file:');
-  console.log(`GREEN_TOKEN_CONTRACT_ADDRESS=${greenToken.address}`);
+  console.log(`GREEN_TOKEN_CONTRACT_ADDRESS=${contractAddress}`);
 
-  return greenToken.address;
+  return contractAddress;
 }
 
 main()
