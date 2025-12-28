@@ -19,26 +19,26 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'EcoHunt - Earn GREEN Tokens',
     description: 'Turn your eco-friendly actions into GREEN tokens with AI verification',
-    images: ['https://frontend-2kl6c2f7j-serkans-projects-9991a7f3.vercel.app/og-image.png'],
-    url: 'https://frontend-2kl6c2f7j-serkans-projects-9991a7f3.vercel.app',
+    images: ['https://ecohunt-base-miniapp.vercel.app/og-image.png'],
+    url: 'https://ecohunt-base-miniapp.vercel.app',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'EcoHunt - Earn GREEN Tokens',
     description: 'Turn your eco-friendly actions into GREEN tokens with AI verification',
-    images: ['https://frontend-2kl6c2f7j-serkans-projects-9991a7f3.vercel.app/og-image.png'],
+    images: ['https://ecohunt-base-miniapp.vercel.app/og-image.png'],
   },
   other: {
     "fc:miniapp": JSON.stringify({
       version: "1",
-      imageUrl: "https://frontend-2kl6c2f7j-serkans-projects-9991a7f3.vercel.app/preview.png",
+      imageUrl: "https://ecohunt-base-miniapp.vercel.app/preview.png",
       button: {
         title: "🌱 Start EcoHunt",
         action: {
           type: "launch_frame",
-          url: "https://frontend-2kl6c2f7j-serkans-projects-9991a7f3.vercel.app",
+          url: "https://ecohunt-base-miniapp.vercel.app",
           name: "EcoHunt",
-          splashImageUrl: "https://frontend-2kl6c2f7j-serkans-projects-9991a7f3.vercel.app/splash.png",
+          splashImageUrl: "https://ecohunt-base-miniapp.vercel.app/splash.png",
           splashBackgroundColor: "#10b981"
         }
       }
@@ -53,6 +53,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {/* Base.dev App Verification */}
+        <meta name="base:app_id" content="695163f04d3a403912ed83e7" />
+      </head>
       <body className={inter.className}>
         <OnchainProviders>
           {children}
