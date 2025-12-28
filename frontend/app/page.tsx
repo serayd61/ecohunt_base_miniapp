@@ -6,7 +6,7 @@ import { useFarcaster } from '../src/providers/FarcasterProvider';
 import sdk from '@farcaster/frame-sdk';
 
 export default function Home() {
-  const { context, isSDKLoaded, isInFrame, user } = useFarcaster();
+  const { context, isSDKLoaded, isInFrame, connectedAddress, user } = useFarcaster();
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -18,32 +18,58 @@ export default function Home() {
   // Farcaster kullanıcısı varsa otomatik bağlan
   useEffect(() => {
     if (isInFrame && user.fid) {
-      setWalletConnected(true);
-      // Önce verified address, yoksa custody address, yoksa FID kullan
-      const ethAddress = user.verifiedAddresses?.[0] || user.custodyAddress || `fid:${user.fid}`;
-      setWalletAddress(ethAddress);
+      // Priority: connectedAddress > verifiedAddresses > custodyAddress
+      const ethAddress = 
+        connectedAddress ||
+        user.verifiedAddresses?.[0] || 
+        user.custodyAddress || 
+        null;
+      
+      console.log('Farcaster addresses:', {
+        connectedAddress,
+        verifiedAddresses: user.verifiedAddresses,
+        custodyAddress: user.custodyAddress,
+        selectedAddress: ethAddress
+      });
+      
+      if (ethAddress && ethAddress.startsWith('0x')) {
+        setWalletConnected(true);
+        setWalletAddress(ethAddress);
+      }
     }
-  }, [isInFrame, user.fid, user.verifiedAddresses, user.custodyAddress]);
+  }, [isInFrame, user.fid, user.verifiedAddresses, user.custodyAddress, connectedAddress]);
 
   // Wallet bağlantısı
   const connectWallet = async () => {
     // Farcaster içindeyse, SDK ile wallet bağlantısı yap
     if (isInFrame) {
       try {
-        const result = await sdk.actions.signIn({
-          nonce: Date.now().toString(),
-        });
-        if (result) {
-          setWalletConnected(true);
-          setWalletAddress(user.username || `fid:${user.fid}`);
+        // Try to get wallet from Farcaster SDK
+        const ethProvider = sdk.wallet.ethProvider;
+        if (ethProvider) {
+          const accounts = await ethProvider.request({ method: 'eth_requestAccounts' }) as string[];
+          console.log('Farcaster wallet accounts:', accounts);
+          if (accounts && accounts.length > 0 && accounts[0].startsWith('0x')) {
+            setWalletConnected(true);
+            setWalletAddress(accounts[0]);
+            return;
+          }
         }
       } catch (err) {
-        console.error('Farcaster sign in error:', err);
-        // Zaten giriş yapılmış olabilir
-        if (user.fid) {
-          setWalletConnected(true);
-          setWalletAddress(user.username || `fid:${user.fid}`);
-        }
+        console.error('Farcaster wallet error:', err);
+      }
+      
+      // Fallback: use custody or verified address
+      const fallbackAddress = 
+        connectedAddress ||
+        user.verifiedAddresses?.[0] || 
+        user.custodyAddress;
+      
+      if (fallbackAddress && fallbackAddress.startsWith('0x')) {
+        setWalletConnected(true);
+        setWalletAddress(fallbackAddress);
+      } else {
+        setError('Could not get your Ethereum address from Farcaster. Please ensure you have a verified address.');
       }
       return;
     }

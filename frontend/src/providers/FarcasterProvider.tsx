@@ -10,6 +10,7 @@ interface FarcasterContextType {
   context: FrameContextType | null;
   isSDKLoaded: boolean;
   isInFrame: boolean;
+  connectedAddress: string | null;
   user: {
     fid: number | null;
     username: string | null;
@@ -24,6 +25,7 @@ const FarcasterContext = createContext<FarcasterContextType>({
   context: null,
   isSDKLoaded: false,
   isInFrame: false,
+  connectedAddress: null,
   user: {
     fid: null,
     username: null,
@@ -42,6 +44,7 @@ export function FarcasterProvider({ children }: { children: ReactNode }) {
   const [context, setContext] = useState<FrameContextType | null>(null);
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [isInFrame, setIsInFrame] = useState(false);
+  const [connectedAddress, setConnectedAddress] = useState<string | null>(null);
 
   useEffect(() => {
     const initializeSDK = async () => {
@@ -49,15 +52,31 @@ export function FarcasterProvider({ children }: { children: ReactNode }) {
         // Get frame context
         const frameContext = await sdk.context;
         
+        console.log('Farcaster Frame Context:', JSON.stringify(frameContext, null, 2));
+        
         if (frameContext) {
           setContext(frameContext);
           setIsInFrame(true);
           
           // Signal that the app is ready
           sdk.actions.ready();
+          
+          // Try to get Ethereum provider and connected address
+          try {
+            const ethProvider = sdk.wallet.ethProvider;
+            if (ethProvider) {
+              const accounts = await ethProvider.request({ method: 'eth_requestAccounts' }) as string[];
+              console.log('Connected Ethereum accounts:', accounts);
+              if (accounts && accounts.length > 0) {
+                setConnectedAddress(accounts[0]);
+              }
+            }
+          } catch (walletError) {
+            console.log('Could not get wallet address:', walletError);
+          }
         }
       } catch (error) {
-        console.log('Not running in Farcaster frame context');
+        console.log('Not running in Farcaster frame context:', error);
       } finally {
         setIsSDKLoaded(true);
       }
@@ -66,9 +85,16 @@ export function FarcasterProvider({ children }: { children: ReactNode }) {
     initializeSDK();
   }, []);
 
-  // Get user's Ethereum address from context
-  const verifiedAddresses = (context?.user as any)?.verifiedAddresses?.ethAddresses || [];
-  const custodyAddress = (context?.user as any)?.custodyAddress || null;
+  // Get user's Ethereum address from context - try multiple paths
+  const contextAny = context as any;
+  const verifiedAddresses = 
+    contextAny?.user?.verifiedAddresses?.ethAddresses ||
+    contextAny?.user?.verified_addresses?.eth_addresses ||
+    [];
+  const custodyAddress = 
+    contextAny?.user?.custodyAddress ||
+    contextAny?.user?.custody_address ||
+    null;
 
   const user = {
     fid: context?.user?.fid ?? null,
@@ -80,7 +106,7 @@ export function FarcasterProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <FarcasterContext.Provider value={{ context, isSDKLoaded, isInFrame, user }}>
+    <FarcasterContext.Provider value={{ context, isSDKLoaded, isInFrame, connectedAddress, user }}>
       {children}
     </FarcasterContext.Provider>
   );
