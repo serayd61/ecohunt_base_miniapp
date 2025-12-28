@@ -15,6 +15,8 @@ interface FarcasterContextType {
     username: string | null;
     displayName: string | null;
     pfpUrl: string | null;
+    custodyAddress: string | null;
+    verifiedAddresses: string[];
   };
 }
 
@@ -27,6 +29,8 @@ const FarcasterContext = createContext<FarcasterContextType>({
     username: null,
     displayName: null,
     pfpUrl: null,
+    custodyAddress: null,
+    verifiedAddresses: [],
   },
 });
 
@@ -62,11 +66,17 @@ export function FarcasterProvider({ children }: { children: ReactNode }) {
     initializeSDK();
   }, []);
 
+  // Get user's Ethereum address from context
+  const verifiedAddresses = (context?.user as any)?.verifiedAddresses?.ethAddresses || [];
+  const custodyAddress = (context?.user as any)?.custodyAddress || null;
+
   const user = {
     fid: context?.user?.fid ?? null,
     username: context?.user?.username ?? null,
     displayName: context?.user?.displayName ?? null,
     pfpUrl: context?.user?.pfpUrl ?? null,
+    custodyAddress,
+    verifiedAddresses,
   };
 
   return (

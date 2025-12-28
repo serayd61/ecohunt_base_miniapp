@@ -19,10 +19,11 @@ export default function Home() {
   useEffect(() => {
     if (isInFrame && user.fid) {
       setWalletConnected(true);
-      // Farcaster'da FID kullan
-      setWalletAddress(`fid:${user.fid}`);
+      // Önce verified address, yoksa custody address, yoksa FID kullan
+      const ethAddress = user.verifiedAddresses?.[0] || user.custodyAddress || `fid:${user.fid}`;
+      setWalletAddress(ethAddress);
     }
-  }, [isInFrame, user.fid]);
+  }, [isInFrame, user.fid, user.verifiedAddresses, user.custodyAddress]);
 
   // Wallet bağlantısı
   const connectWallet = async () => {
@@ -122,19 +123,32 @@ export default function Home() {
     formData.append('walletAddress', walletAddress);
 
     try {
-      // API endpoint'i environment variable'dan al (Express backend)
-      const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-      const apiUrl = baseUrl ? `${baseUrl}/api/submit-photo` : '/api/verify';
+      // API endpoint - always use local API route
+      const apiUrl = '/api/verify';
+      
+      console.log('Uploading to:', apiUrl);
+      console.log('Wallet:', walletAddress);
+      console.log('File:', selectedFile?.name, selectedFile?.size);
       
       const response = await fetch(apiUrl, {
         method: 'POST',
         body: formData,
       });
 
-      const data = await response.json();
+      console.log('Response status:', response.status);
+
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        console.error('JSON parse error:', jsonError);
+        throw new Error('Server response error. Please try again.');
+      }
+
+      console.log('Response data:', data);
 
       if (!response.ok) {
-        throw new Error(data.message || 'Upload failed');
+        throw new Error(data.message || `Upload failed (${response.status})`);
       }
 
       setUploadResult(data);
@@ -146,9 +160,10 @@ export default function Home() {
         setUploadResult(null);
       }, 10000);
 
-    } catch (err) {
+    } catch (err: any) {
       console.error('Upload error:', err);
-      setError(err.message || 'Failed to upload image. Please try again.');
+      const errorMessage = err?.message || 'Failed to upload image. Please try again.';
+      setError(errorMessage);
     } finally {
       setIsUploading(false);
     }
