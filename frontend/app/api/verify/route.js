@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createPublicClient, createWalletClient, http, parseUnits } from 'viem';
-import { baseSepolia } from 'viem/chains';
+import { base } from 'viem/chains';
 import { privateKeyToAccount } from 'viem/accounts';
 
 // GreenTokenV2 ABI (minimal)
@@ -25,8 +25,8 @@ const GREEN_TOKEN_ABI = [
   }
 ];
 
-// Contract address (Base Sepolia - will be set after deployment)
-const GREEN_TOKEN_ADDRESS = process.env.GREEN_TOKEN_ADDRESS || '0x0000000000000000000000000000000000000000';
+// Contract address (Base Mainnet)
+const GREEN_TOKEN_ADDRESS = process.env.GREEN_TOKEN_ADDRESS || '0x769Faa55AAfab4FBef229B398F2B09aa38F5730c';
 
 // OpenAI API for image analysis
 async function analyzeImageWithAI(imageBase64) {
@@ -161,12 +161,12 @@ async function mintTokens(userAddress, aiScore, rewardAmount) {
     
     const walletClient = createWalletClient({
       account,
-      chain: baseSepolia,
+      chain: base,
       transport: http()
     });
 
     const publicClient = createPublicClient({
-      chain: baseSepolia,
+      chain: base,
       transport: http()
     });
 

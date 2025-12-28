@@ -34,10 +34,10 @@ module.exports = {
       gasPrice: 'auto',
       gas: 'auto',
     },
-    baseTestnet: {
-      url: 'https://goerli.base.org',
+    baseSepolia: {
+      url: 'https://sepolia.base.org',
       accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
-      chainId: 84531,
+      chainId: 84532,
       gasPrice: 'auto',
       gas: 'auto',
     },
