@@ -4,24 +4,30 @@ const nextConfig = {
     return [
       {
         source: '/farcaster.json',
-        destination: '/api/farcaster',
+        destination: '/.well-known/farcaster.json',
       },
     ]
   },
-  // Alternatif: headers ile CORS ayarı
   async headers() {
     return [
       {
         source: '/farcaster.json',
         headers: [
-          {
-            key: 'Access-Control-Allow-Origin',
-            value: '*',
-          },
-          {
-            key: 'Content-Type',
-            value: 'application/json',
-          },
+          { key: 'Access-Control-Allow-Origin', value: '*' },
+          { key: 'Content-Type', value: 'application/json' },
+        ],
+      },
+      {
+        source: '/.well-known/:path*',
+        headers: [
+          { key: 'Access-Control-Allow-Origin', value: '*' },
+          { key: 'Content-Type', value: 'application/json' },
+        ],
+      },
+      {
+        source: '/api/webhook',
+        headers: [
+          { key: 'Access-Control-Allow-Origin', value: '*' },
         ],
       },
     ]

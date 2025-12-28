@@ -1,16 +1,24 @@
 {
-  "name": "EcoHunt",
-  "iconUrl": "https://ecohunt-base-miniapp.vercel.app/icon.png",
-  "homeUrl": "https://ecohunt-base-miniapp.vercel.app",
-  "splashImageUrl": "https://ecohunt-base-miniapp.vercel.app/splash.png",
-  "splashBackgroundColor": "#10B981",
-  "primaryCategory": "social",
-  "tags": ["eco", "green", "nature", "rewards", "base"],
-  "description": "AI-powered environmental conservation platform - Earn GREEN tokens for eco-friendly actions on Base Network",
-  "version": "1.0.0",
-  "baseBuilder": {
-    "allowedAddresses": [
-      "0x5c0834E86c197b10d583940EC6366EFaA2e93B1e"
-    ]
+  "frame": {
+    "name": "EcoHunt",
+    "version": "1",
+    "iconUrl": "https://ecohunt-base-miniapp.vercel.app/icon.png",
+    "homeUrl": "https://ecohunt-base-miniapp.vercel.app",
+    "imageUrl": "https://ecohunt-base-miniapp.vercel.app/image.png",
+    "splashImageUrl": "https://ecohunt-base-miniapp.vercel.app/splash.png",
+    "splashBackgroundColor": "#10B981",
+    "webhookUrl": "https://ecohunt-base-miniapp.vercel.app/api/webhook",
+    "subtitle": "Discover & complete eco-friendly quests on Base",
+    "description": "EcoHunt is a gamified sustainability platform on Base. Complete eco-friendly quests, earn GreenTokens, track your environmental impact, and compete on the leaderboard. Join the green revolution on blockchain!",
+    "primaryCategory": "social",
+    "screenshotUrls": [
+      "https://ecohunt-base-miniapp.vercel.app/preview.png"
+    ],
+    "heroImageUrl": "https://ecohunt-base-miniapp.vercel.app/hero.png"
+  },
+  "accountAssociation": {
+    "header": "eyJmaWQiOjIwODY0NiwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweGM1NjhlQTVjQ0M2OEVkMDE5NDNFODQ3YWVDMTY2MTY3NTA2NDhENjUifQ",
+    "payload": "eyJkb21haW4iOiJlY29odW50LWJhc2UtbWluaWFwcC52ZXJjZWwuYXBwIn0",
+    "signature": "aIhzBe/BDFQTIKUFkbMIL1LlomIivvSEZeFnhJT4sRwitJzj3cL88pfUQ2VHfn4RqzYzkQtPTSQO7lUvG3MGixs="
   }
 }

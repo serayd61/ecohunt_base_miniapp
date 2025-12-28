@@ -1,4 +1,6 @@
-{
+import { NextResponse } from 'next/server';
+
+const manifest = {
   "frame": {
     "name": "EcoHunt",
     "version": "1",
@@ -21,4 +23,15 @@
     "payload": "eyJkb21haW4iOiJlY29odW50LWJhc2UtbWluaWFwcC52ZXJjZWwuYXBwIn0",
     "signature": "aIhzBe/BDFQTIKUFkbMIL1LlomIivvSEZeFnhJT4sRwitJzj3cL88pfUQ2VHfn4RqzYzkQtPTSQO7lUvG3MGixs="
   }
+};
+
+export async function GET() {
+  return NextResponse.json(manifest, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Cache-Control': 'public, max-age=3600'
+    }
+  });
 }
+
