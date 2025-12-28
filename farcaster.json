@@ -8,8 +8,8 @@
     "splashImageUrl": "https://ecohunt-base-miniapp.vercel.app/splash.png",
     "splashBackgroundColor": "#10B981",
     "webhookUrl": "https://ecohunt-base-miniapp.vercel.app/api/webhook",
-    "subtitle": "Discover & complete eco-friendly quests on Base",
-    "description": "EcoHunt is a gamified sustainability platform on Base. Complete eco-friendly quests, earn GreenTokens, track your environmental impact, and compete on the leaderboard. Join the green revolution on blockchain!",
+    "subtitle": "Eco-friendly quests on Base",
+    "description": "Complete eco quests, earn GreenTokens, track your impact. Join the green revolution on Base blockchain!",
     "primaryCategory": "social",
     "screenshotUrls": [
       "https://ecohunt-base-miniapp.vercel.app/preview.png"
