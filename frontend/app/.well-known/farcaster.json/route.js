@@ -19,7 +19,7 @@ const manifest = {
     "heroImageUrl": "https://ecohunt-base-miniapp.vercel.app/hero.png"
   },
   "accountAssociation": {
-    "header": "eyJmaWQiOjIwODY0NiwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweGM1NjhlQTVjQ0M2OEVkMDE5NDNFODQ3YWVDMTY2MTY3NTA2NDhENjUifQ",
+    "header": "eyJmaWQiOjIwODY0NiwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweGM1NjhlQTVjY0M2OEVkMDE5NDNFODQ3YWVDMTY2MTY3NTA2NDhENjUifQ",
     "payload": "eyJkb21haW4iOiJlY29odW50LWJhc2UtbWluaWFwcC52ZXJjZWwuYXBwIn0",
     "signature": "aIhzBe/BDFQTIKUFkbMIL1LlomIivvSEZeFnhJT4sRwitJzj3cL88pfUQ2VHfn4RqzYzkQtPTSQO7lUvG3MGixs="
   }
@@ -30,8 +30,7 @@ export async function GET() {
     headers: {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
-      'Cache-Control': 'public, max-age=3600'
+      'Cache-Control': 'no-cache, no-store, must-revalidate'
     }
   });
 }
-
