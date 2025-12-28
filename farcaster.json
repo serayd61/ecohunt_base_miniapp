@@ -6,7 +6,7 @@
   "splashBackgroundColor": "#10B981",
   "primaryCategory": "social",
   "tags": ["eco", "green", "nature", "rewards", "base"],
-  "description": "Rewarding environmental conservation with GREEN tokens",
+  "description": "AI-powered environmental conservation platform - Earn GREEN tokens for eco-friendly actions on Base Network",
   "version": "1.0.0",
   "baseBuilder": {
     "allowedAddresses": [
