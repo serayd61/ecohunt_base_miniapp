@@ -291,32 +291,61 @@ export default function Home() {
 
           {/* Success Result */}
           {uploadResult && uploadResult.success && (
-            <div className="mb-6 p-6 bg-green-50 border-2 border-green-200 rounded-2xl">
+            <div className="mb-6 p-6 bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-300 rounded-2xl">
               <div className="flex items-center mb-4">
                 <CheckCircle className="h-8 w-8 text-green-500 mr-3" />
-                <h3 className="text-xl font-bold text-green-800">Verification Successful!</h3>
+                <h3 className="text-xl font-bold text-green-800">🎉 Verification Successful!</h3>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-gray-600">AI Score</p>
-                  <p className="text-2xl font-bold text-green-600">{uploadResult.aiScore}/100</p>
+              
+              {/* Stats Grid */}
+              <div className="grid grid-cols-3 gap-4 mb-4">
+                <div className="bg-white rounded-xl p-3 text-center shadow-sm">
+                  <p className="text-xs text-gray-500">AI Score</p>
+                  <p className="text-2xl font-bold text-green-600">{uploadResult.aiScore}</p>
                 </div>
-                <div>
-                  <p className="text-sm text-gray-600">Tokens Earned</p>
-                  <p className="text-2xl font-bold text-green-600">{uploadResult.tokensEarned} GREEN</p>
+                <div className="bg-white rounded-xl p-3 text-center shadow-sm">
+                  <p className="text-xs text-gray-500">GREEN Earned</p>
+                  <p className="text-2xl font-bold text-emerald-600">{uploadResult.tokensEarned}</p>
+                </div>
+                <div className="bg-white rounded-xl p-3 text-center shadow-sm">
+                  <p className="text-xs text-gray-500">Category</p>
+                  <p className="text-sm font-bold text-blue-600 capitalize">{uploadResult.category?.replace('_', ' ')}</p>
                 </div>
               </div>
-              {uploadResult.transactionHash && (
-                <div className="mt-4 p-3 bg-white rounded-lg">
-                  <p className="text-sm text-gray-600 mb-1">Transaction Hash</p>
+
+              {/* NFT Transaction */}
+              {uploadResult.nftTransactionHash && !uploadResult.mock && (
+                <div className="mt-3 p-3 bg-white rounded-lg shadow-sm">
+                  <p className="text-xs text-gray-500 mb-1">🖼️ EcoNFT Minted</p>
                   <a 
-                    href={`https://basescan.org/tx/${uploadResult.transactionHash}`}
+                    href={`https://basescan.org/tx/${uploadResult.nftTransactionHash}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline text-sm font-mono break-all"
+                    className="text-blue-600 hover:underline text-xs font-mono break-all"
                   >
-                    {uploadResult.transactionHash}
+                    {uploadResult.nftTransactionHash}
                   </a>
+                </div>
+              )}
+
+              {/* Token Transaction */}
+              {uploadResult.tokenTransactionHash && !uploadResult.mock && (
+                <div className="mt-2 p-3 bg-white rounded-lg shadow-sm">
+                  <p className="text-xs text-gray-500 mb-1">🌱 GREEN Tokens Sent</p>
+                  <a 
+                    href={`https://basescan.org/tx/${uploadResult.tokenTransactionHash}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline text-xs font-mono break-all"
+                  >
+                    {uploadResult.tokenTransactionHash}
+                  </a>
+                </div>
+              )}
+
+              {uploadResult.mock && (
+                <div className="mt-3 p-2 bg-yellow-50 rounded-lg text-center">
+                  <p className="text-xs text-yellow-700">⚠️ Demo mode - Configure VERIFIER_PRIVATE_KEY for real transactions</p>
                 </div>
               )}
             </div>
