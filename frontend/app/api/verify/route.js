@@ -160,14 +160,14 @@ Respond ONLY with JSON: {"score": <0-100>, "isEnvironmental": <boolean>, "catego
   }
 }
 
-// Calculate GREEN token reward (100-1000 based on score)
+// Calculate GREEN token reward (10-100 based on score)
+// MAX_PER_REWARD in contract is 100 tokens
 function calculateTokenReward(aiScore) {
-  // Score 50-100 maps to 100-1000 tokens
-  if (aiScore >= 90) return 1000;
-  if (aiScore >= 80) return 750;
-  if (aiScore >= 70) return 500;
-  if (aiScore >= 60) return 300;
-  if (aiScore >= 50) return 100;
+  if (aiScore >= 90) return 100;
+  if (aiScore >= 80) return 75;
+  if (aiScore >= 70) return 50;
+  if (aiScore >= 60) return 30;
+  if (aiScore >= 50) return 10;
   return 0;
 }
 
